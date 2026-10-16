@@ -153,8 +153,7 @@ img { display: block; max-width: 100%; height: auto; }
   border: none;
   background: transparent;
   color: var(--text);
-  font-size: 1rem;
-  font-weight: 700;
+  font-size: 1.4rem;
   line-height: 1;
   cursor: pointer;
 }

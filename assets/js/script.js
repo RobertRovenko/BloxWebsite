@@ -8,13 +8,13 @@ document.addEventListener("DOMContentLoaded", () => {
     navToggle.addEventListener("click", () => {
       const open = siteNav.classList.toggle("is-open");
       navToggle.setAttribute("aria-expanded", String(open));
-      navToggle.textContent = open ? "Close" : "Menu";
+      navToggle.innerHTML = open ? "&#10005;" : "&#9776;";
     });
     siteNav.querySelectorAll("a").forEach((link) => {
       link.addEventListener("click", () => {
         siteNav.classList.remove("is-open");
         navToggle.setAttribute("aria-expanded", "false");
-        navToggle.textContent = "Menu";
+        navToggle.innerHTML = "&#9776;";
       });
     });
   }
