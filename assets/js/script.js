@@ -1,6 +1,24 @@
 // Blox website shared scripts — interactions
 
 document.addEventListener("DOMContentLoaded", () => {
+  // Mobile navbar toggle
+  const navToggle = document.getElementById("nav-toggle");
+  const siteNav = document.getElementById("site-nav");
+  if (navToggle && siteNav) {
+    navToggle.addEventListener("click", () => {
+      const open = siteNav.classList.toggle("is-open");
+      navToggle.setAttribute("aria-expanded", String(open));
+      navToggle.innerHTML = open ? "&#10005;" : "&#9776;";
+    });
+    siteNav.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", () => {
+        siteNav.classList.remove("is-open");
+        navToggle.setAttribute("aria-expanded", "false");
+        navToggle.innerHTML = "&#9776;";
+      });
+    });
+  }
+
   // Reveal on scroll for cards
   const revealTargets = document.querySelectorAll(".piece-card, .feature-card, .step-card");
   if (revealTargets.length && "IntersectionObserver" in window) {
@@ -18,7 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
     revealTargets.forEach((el) => el.classList.add("is-visible"));
   }
 
-  // Subtle mouse-reactive decorative glow on floating pieces
+  // Subtle mouse-reactive decorative movement on floating pieces
   const floats = document.querySelectorAll(".piece-float");
   if (floats.length && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
     document.addEventListener("mousemove", (e) => {
@@ -26,7 +44,6 @@ document.addEventListener("DOMContentLoaded", () => {
       const y = (e.clientY / window.innerHeight - 0.5) * 2;
       floats.forEach((el, i) => {
         const factor = (i % 2 === 0 ? 1 : -1) * 8;
-        const base = el.style.transform || "";
         el.style.translate = `${x * factor}px ${y * factor}px`;
       });
     }, { passive: true });

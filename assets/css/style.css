@@ -588,3 +588,34 @@ img { display: block; max-width: 100%; height: auto; }
   }
   .piece-card, .feature-card, .step-card { opacity: 1; transform: none; }
 }
+
+/* ---------- Mobile navbar ---------- */
+@media (max-width: 760px) {
+  .header-inner {
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .logo { flex: 1 1 auto; }
+  .nav-toggle { display: inline-flex; }
+  .nav {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    gap: 0.5rem;
+    padding-top: 0.5rem;
+  }
+  .nav.is-open { display: flex; }
+  .nav a {
+    display: block;
+    text-align: center;
+    padding: 0.7rem 1rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+  }
+  .nav a:hover {
+    background: var(--surface-2);
+    border-color: var(--border-strong);
+  }
+}
