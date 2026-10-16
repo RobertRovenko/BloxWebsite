@@ -363,8 +363,10 @@ img { display: block; max-width: 100%; height: auto; }
   margin-bottom: 1rem;
 }
 .piece {
-  width: 96px;
+  width: auto;
   height: auto;
+  max-width: 96px;
+  max-height: 96px;
   filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.45));
 }
 
