@@ -144,6 +144,21 @@ img { display: block; max-width: 100%; height: auto; }
 }
 .nav a:hover { color: var(--text); }
 
+/* Mobile menu toggle (hidden on desktop) */
+.nav-toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  font-size: 1.3rem;
+  line-height: 1;
+  cursor: pointer;
+}
 /* ---------- Hero ---------- */
 .hero {
   position: relative;
