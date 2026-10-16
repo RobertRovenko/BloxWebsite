@@ -620,12 +620,20 @@ img { display: block; max-width: 100%; height: auto; }
     gap: 0.5rem;
     padding-top: 0.5rem;
   }
-  .nav.is-open { display: flex; }
+  .container { padding-inline: 1rem; }
+  .nav.is-open {
+    display: flex;
+    margin: 0.5rem 0 0;
+    padding: 0.75rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+  }
   .nav a {
     display: block;
     text-align: center;
     padding: 0.7rem 1rem;
-    background: var(--surface);
+    background: var(--surface-2);
     border: 1px solid var(--border);
     border-radius: var(--radius-sm);
   }
