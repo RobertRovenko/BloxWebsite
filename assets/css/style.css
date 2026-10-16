@@ -367,6 +367,10 @@ img { display: block; max-width: 100%; height: auto; }
   height: auto;
   filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.45));
 }
+
+.piece rect {
+  fill: currentColor;
+}
 .piece-red { color: var(--red); }
 .piece-green { color: var(--green); }
 .piece-blue { color: var(--blue); }
