@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Privacy Policy — Blox</title>
+  <meta name="description" content="Privacy policy for Blox, an offline-playable 8x8 block puzzle game for Android." />
+  <link rel="icon" type="image/png" href="favicon.png" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="/" class="logo">
+        <span class="logo-mark" aria-hidden="true"></span>
+        Blox
+      </a>
+      <nav class="nav">
+        <a href="/">Home</a>
+        <a href="privacypolicy.html">Privacy</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container" style="padding: 3rem 1.5rem 1rem;">
+    <div class="policy-card container-narrow" style="max-width:var(--container-narrow); margin:0 auto;">
+      <header class="policy-header">
+        <h1>Privacy Policy — Blox</h1>
+        <p><strong>Developer:</strong> rovenkodev ("we", "us", "our")</p>
+        <p><strong>Application:</strong> Blox — Block Puzzle Game (Android) ("the app")</p>
+        <p><strong>Package:</strong> com.rovenkodev.blox</p>
+        <p><strong>Last updated:</strong> October 16, 2026</p>
+      </header>
+
+      <section>
+        <h2>1. What the app does</h2>
+        <p>
+          Blox is an offline-playable 8×8 block puzzle game. The app does not require an account,
+          registration or email. All game data (score, preferences) is stored only on your device.
+          The only network activity is ad requests to Google's AdMob service.
+        </p>
+      </section>
+
+      <section>
+        <h2>2. Data we collect locally (never transmitted)</h2>
+        <p>
+          Stored in the device's local storage (Android SharedPreferences, not synced to any server):
+        </p>
+        <ul>
+          <li>Best score and run statistics (score, combo streak, daily challenge progress).</li>
+          <li>Sound on/off and vibration on/off preferences (chosen by you).</li>
+          <li>Daily challenge salt and progress (a per-install random token used to generate a local per-day set of goals; never uploaded).</li>
+          <li>In-progress run snapshot (so you can resume a run after closing).</li>
+        </ul>
+        <p><strong>None of this data leaves your device.</strong></p>
+      </section>
+
+      <section>
+        <h2>3. Permission usage</h2>
+        <ul>
+          <li><strong>VIBRATE</strong> — only used to vibrate the device when enabled in the in-app settings. Never used in the background.</li>
+          <li><strong>Network (INTERNET/ACCESS_NETWORK_STATE)</strong> — required by the ad SDK for ad delivery.</li>
+          <li>No camera, microphone, contacts, location, storage or other sensitive permissions are requested.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>4. Third-party services — Google AdMob</h2>
+        <p>
+          Blox uses Google Mobile Ads (AdMob) to display a banner ad at the bottom of the screen.
+          AdMob may collect, process or use:
+        </p>
+        <ul>
+          <li>Advertising ID (AAID) — only in development builds that are registered as test devices use test ads; release builds use the real ad unit ca-app-pub-1555784587312566/6943089898.</li>
+          <li>IP address, device model, OS version, language, timezone.</li>
+          <li>Coarse / approximate location inferred from IP address.</li>
+          <li>App-interaction metrics for ad delivery, fraud prevention and measurement.</li>
+        </ul>
+        <p>
+          Please review Google's privacy policy for full details:
+          <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">https://policies.google.com/privacy</a>
+        </p>
+      </section>
+
+      <section>
+        <h2>5. Consent (EEA / UK / US states)</h2>
+        <p>
+          The AdMob plugin ships Google's User Messaging Platform (UMP) for consent collection in regulated
+          regions. As of v1.0, U (region-attested) consent is not yet wired; the release build uses the
+          default consent flow. We are evaluating integrating GoogleMobileAds.Ump before wider rollout.
+        </p>
+        <p>
+          If you are in the EEA/UK and want to manage your choices, please contact us (below) until UMP is
+          integrated. Ad networks serving in these regions will still abide by their own consent framework.
+        </p>
+      </section>
+
+      <section>
+        <h2>6. Children</h2>
+        <p>
+          Blox is not directed to children under 13 (specifically not designed for the "Families" /
+          "Teacher Approved" programs). Ads are served under the standard app category "Puzzle (Game)".
+          If a parent believes their child's data was collected in error, contact us and we'll delete it
+          (only local storage — no server record exists).
+        </p>
+      </section>
+
+      <section>
+        <h2>7. Data deletion / retention</h2>
+        <ul>
+          <li>All locally-stored data can be cleared by uninstalling the app or clearing app storage in Android Settings → Apps → Blox → Storage → Clear data.</li>
+          <li>No account or server-side data is retained.</li>
+          <li>AdMob retains data per Google's own policy (see section 4).</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>8. Changes</h2>
+        <p>
+          We may update this policy as the app evolves; the "Last updated" date will be updated.
+          Material changes will be communicated through an updated release.
+        </p>
+      </section>
+
+      <section>
+        <h2>9. Contact</h2>
+        <p>
+          Questions / complaints / data requests:<br />
+          rovenkodev — <a href="mailto:rovenkodevsupport@gmail.com">rovenkodevsupport@gmail.com</a>
+        </p>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>&copy; 2026 rovenkodev. Blox — Block Puzzle Game (Android). Package: com.rovenkodev.blox</p>
+      <p><a href="/">Back to home</a></p>
+    </div>
+  </footer>
+
+  <script src="assets/js/script.js"></script>
+</body>
+</html>
