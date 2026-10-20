@@ -5,10 +5,65 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Blox is an offline-playable 8x8 block puzzle game for Android. No account required — just colorful classic pieces." />
   <title>Blox — Block Puzzle Game</title>
-  <link rel="icon" type="image/png" href="favicon.png" />
+  <link rel="icon" href="assets/img/icon-32.png" sizes="32x32" type="image/png" />
+  <link rel="icon" href="assets/img/icon-32.webp" sizes="32x32" type="image/webp" />
+  <link rel="apple-touch-icon" href="assets/img/icon-180.png" />
+  <link rel="preload" as="image" href="assets/img/wordmark.webp"
+        imagesrcset="assets/img/wordmark.webp 900w, assets/img/wordmark-2x.webp 1623w"
+        imagesizes="(max-width: 700px) 68vw, 54vw"
+        fetchpriority="high" />
   <link rel="stylesheet" href="assets/css/style.css" />
 </head>
 <body>
+
+    <!-- Shared gradients for the piece showcase, matching the hero blocks.
+         These are tighter than the hero's block gradients: a showcase tile is
+         only ~24px, so a full light-to-dark ramp would wash the colour out. -->
+    <svg class="svg-defs" aria-hidden="true" focusable="false" width="0" height="0">
+      <defs>
+        <linearGradient id="p-red" x1="0" y1="0" x2="0.8" y2="1">
+          <stop offset="0" stop-color="#ff8090"/><stop offset="0.5" stop-color="#f4485c"/><stop offset="1" stop-color="#c22642"/>
+        </linearGradient>
+        <linearGradient id="p-green" x1="0" y1="0" x2="0.8" y2="1">
+          <stop offset="0" stop-color="#5ee084"/><stop offset="0.5" stop-color="#24cc48"/><stop offset="1" stop-color="#14a042"/>
+        </linearGradient>
+        <linearGradient id="p-blue" x1="0" y1="0" x2="0.8" y2="1">
+          <stop offset="0" stop-color="#5fc4ff"/><stop offset="0.5" stop-color="#189cfc"/><stop offset="1" stop-color="#0a7fbe"/>
+        </linearGradient>
+        <linearGradient id="p-yellow" x1="0" y1="0" x2="0.8" y2="1">
+          <stop offset="0" stop-color="#ffe66b"/><stop offset="0.5" stop-color="#fcd824"/><stop offset="1" stop-color="#d9ae08"/>
+        </linearGradient>
+        <linearGradient id="p-purple" x1="0" y1="0" x2="0.8" y2="1">
+          <stop offset="0" stop-color="#c993ff"/><stop offset="0.5" stop-color="#a855f7"/><stop offset="1" stop-color="#7c2fd0"/>
+        </linearGradient>
+        <linearGradient id="p-orange" x1="0" y1="0" x2="0.8" y2="1">
+          <stop offset="0" stop-color="#ffb35f"/><stop offset="0.5" stop-color="#ff9a2e"/><stop offset="1" stop-color="#dd7416"/>
+        </linearGradient>
+        <linearGradient id="p-gloss" x1="0" y1="0" x2="0.55" y2="1">
+          <stop offset="0" stop-color="#ffffff" stop-opacity="0.72"/>
+          <stop offset="0.3" stop-color="#ffffff" stop-opacity="0.2"/>
+          <stop offset="0.55" stop-color="#ffffff" stop-opacity="0"/>
+        </linearGradient>
+        <!-- Inner bevel: a dark lower-right edge and a light upper-left edge.
+             Gives each tile the same moulded-plastic depth as the hero blocks
+             without washing the colour out (a specular filter does). -->
+        <filter id="p-plastic" x="-25%" y="-25%" width="150%" height="150%">
+          <feOffset in="SourceAlpha" dx="1.6" dy="1.8" result="off"/>
+          <feGaussianBlur in="off" stdDeviation="1.2" result="darkBlur"/>
+          <feComposite in="SourceAlpha" in2="darkBlur" operator="out" result="darkEdge"/>
+          <feFlood flood-color="#000000" flood-opacity="0.5" result="darkColor"/>
+          <feComposite in="darkColor" in2="darkEdge" operator="in" result="dark"/>
+          <feComposite in="SourceGraphic" in2="dark" operator="over" result="shaded"/>
+          <feOffset in="SourceAlpha" dx="-1.4" dy="-1.4" result="off2"/>
+          <feGaussianBlur in="off2" stdDeviation="1" result="lightBlur"/>
+          <feComposite in="SourceAlpha" in2="lightBlur" operator="out" result="lightEdge"/>
+          <feFlood flood-color="#ffffff" flood-opacity="0.55" result="lightColor"/>
+          <feComposite in="lightColor" in2="lightEdge" operator="in" result="light"/>
+          <feComposite in="shaded" in2="light" operator="over"/>
+        </filter>
+      </defs>
+    </svg>
+
   <header class="site-header">
     <div class="container header-inner">
       <a href="/" class="logo">
@@ -26,58 +81,204 @@
     </div>
   </header>
 
-  <!-- Decorative floating classic pieces (hero background) -->
   <section class="hero">
-    <div class="hero-pieces" aria-hidden="true">
-      <!-- blue I piece -->
-      <div class="piece-float" style="left:4%; top:14%; --r:-12deg;">
-        <svg class="piece piece-blue" viewBox="0 0 96 24" xmlns="http://www.w3.org/2000/svg" width="96" height="24">
-          <rect x="0" y="0" width="24" height="24" rx="4"/><rect x="24" y="0" width="24" height="24" rx="4"/><rect x="48" y="0" width="24" height="24" rx="4"/><rect x="72" y="0" width="24" height="24" rx="4"/>
-        </svg>
-      </div>
-      <!-- red T piece -->
-      <div class="piece-float" style="right:6%; top:18%; --r:8deg;">
-        <svg class="piece piece-red" viewBox="0 0 72 48" xmlns="http://www.w3.org/2000/svg" width="72" height="48">
-          <rect x="0" y="0" width="24" height="24" rx="4"/><rect x="24" y="0" width="24" height="24" rx="4"/><rect x="48" y="0" width="24" height="24" rx="4"/><rect x="24" y="24" width="24" height="24" rx="4"/>
-        </svg>
-      </div>
-      <!-- green L piece -->
-      <div class="piece-float" style="left:8%; bottom:12%; --r:-6deg;">
-        <svg class="piece piece-green" viewBox="0 0 48 72" xmlns="http://www.w3.org/2000/svg" width="48" height="72">
-          <rect x="0" y="0" width="24" height="24" rx="4"/><rect x="0" y="24" width="24" height="24" rx="4"/><rect x="0" y="48" width="24" height="24" rx="4"/><rect x="24" y="48" width="24" height="24" rx="4"/>
-        </svg>
-      </div>
-      <!-- yellow O piece -->
-      <div class="piece-float" style="right:10%; bottom:10%; --r:14deg;">
-        <svg class="piece piece-yellow" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" width="48" height="48">
-          <rect x="0" y="0" width="24" height="24" rx="4"/><rect x="24" y="0" width="24" height="24" rx="4"/><rect x="0" y="24" width="24" height="24" rx="4"/><rect x="24" y="24" width="24" height="24" rx="4"/>
-        </svg>
-      </div>
-      <!-- purple S piece -->
-      <div class="piece-float" style="left:46%; top:8%; --r:4deg; opacity:0.4;">
-        <svg class="piece piece-purple" viewBox="0 0 72 48" xmlns="http://www.w3.org/2000/svg" width="72" height="48" style="width:72px;">
-          <rect x="24" y="0" width="24" height="24" rx="4"/><rect x="48" y="0" width="24" height="24" rx="4"/><rect x="0" y="24" width="24" height="24" rx="4"/><rect x="24" y="24" width="24" height="24" rx="4"/>
-        </svg>
-      </div>
-      <!-- orange Z piece -->
-      <div class="piece-float" style="left:48%; bottom:6%; --r:-10deg; opacity:0.4;">
-        <svg class="piece piece-orange" viewBox="0 0 72 48" xmlns="http://www.w3.org/2000/svg" width="72" height="48" style="width:72px;">
-          <rect x="0" y="0" width="24" height="24" rx="4"/><rect x="24" y="0" width="24" height="24" rx="4"/><rect x="24" y="24" width="24" height="24" rx="4"/><rect x="48" y="24" width="24" height="24" rx="4"/>
-        </svg>
-      </div>
-    </div>
+    <div class="hero-art-wrap">
+      <!-- hero-art:desktop -->
+<svg class="hero-svg hero-svg--desktop" viewBox="0 0 1024 520" width="1024" height="520" aria-hidden="true" focusable="false">
 
-    <div class="container hero-content">
-      <div class="hero-badge">
-        <img src="assets/img/app-icon.png" alt="Blox app icon" width="156" height="156" />
-      </div>
-      <h1><span class="accent">Blox</span></h1>
-      <p class="tagline">A colorful 8×8 block puzzle for Android.</p>
-      <p class="description">
-        Drop classic pieces onto an 8×8 board, clear full rows and columns, and chase your best score.
-        Fully offline, no account required — your data stays on your device.
-      </p>
-      <div class="cta-group">
+  <defs>
+    
+    <linearGradient id="d-g-orange" x1="0" y1="0" x2="0.8" y2="1">
+      <stop offset="0" stop-color="#ffcf8a"/>
+      <stop offset="0.38" stop-color="#ff9a2e"/>
+      <stop offset="1" stop-color="#d95f0a"/>
+    </linearGradient>
+    <linearGradient id="d-g-cyan" x1="0" y1="0" x2="0.8" y2="1">
+      <stop offset="0" stop-color="#a5efff"/>
+      <stop offset="0.38" stop-color="#25c3f0"/>
+      <stop offset="1" stop-color="#0582b4"/>
+    </linearGradient>
+    <linearGradient id="d-g-red" x1="0" y1="0" x2="0.8" y2="1">
+      <stop offset="0" stop-color="#ffb0ba"/>
+      <stop offset="0.38" stop-color="#f4485c"/>
+      <stop offset="1" stop-color="#b81a36"/>
+    </linearGradient>
+    <linearGradient id="d-g-purple" x1="0" y1="0" x2="0.8" y2="1">
+      <stop offset="0" stop-color="#e2b8ff"/>
+      <stop offset="0.38" stop-color="#a855f7"/>
+      <stop offset="1" stop-color="#6a17b4"/>
+    </linearGradient>
+    <linearGradient id="d-g-gold" x1="0" y1="0" x2="0.8" y2="1">
+      <stop offset="0" stop-color="#ffe98f"/>
+      <stop offset="0.38" stop-color="#f5c518"/>
+      <stop offset="1" stop-color="#b07f00"/>
+    </linearGradient>
+    <linearGradient id="d-gloss-fill" x1="0" y1="0" x2="0.55" y2="1">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.78"/>
+      <stop offset="0.28" stop-color="#ffffff" stop-opacity="0.24"/>
+      <stop offset="0.52" stop-color="#ffffff" stop-opacity="0"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0.12"/>
+    </linearGradient>
+    <linearGradient id="d-rim-fill" x1="0" y1="0" x2="0.7" y2="1">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.45"/>
+      <stop offset="0.16" stop-color="#ffffff" stop-opacity="0"/>
+      <stop offset="0.84" stop-color="#000000" stop-opacity="0"/>
+      <stop offset="1" stop-color="#000000" stop-opacity="0.3"/>
+    </linearGradient>
+  </defs>
+
+  <path d="M0 0 H330 C302 58 268 108 224 148 C186 182 132 208 74 224 C48 231 20 234 0 233 Z" fill="#24cc48"/>
+  <path d="M1024 0 H694 C722 52 758 96 800 130 C846 166 894 190 940 202 C966 208 994 211 1024 212 Z" fill="#fcd824"/>
+  <path d="M0 330 C56 352 116 388 168 430 C200 456 240 490 268 520 L0 520 Z" fill="#fc3c48"/>
+  <path d="M1024 350 C968 374 912 408 866 448 C830 478 786 504 748 520 L1024 520 Z" fill="#189cfc"/>
+
+    <g class="hero-block" data-depth="1">
+      <g transform="translate(-30 -40) rotate(-24) scale(1)">
+        <path class="b-side" d="M0 15 A15 15 0 0 1 15 0L35 0 A15 15 0 0 1 50 15L50 50L50 100L85 100 A15 15 0 0 1 100 115L100 135 A15 15 0 0 1 85 150L50 150L15 150 A15 15 0 0 1 0 135L0 100L0 50 Z" transform="translate(10 12)"/>
+        <path class="b-face" d="M0 15 A15 15 0 0 1 15 0L35 0 A15 15 0 0 1 50 15L50 50L50 100L85 100 A15 15 0 0 1 100 115L100 135 A15 15 0 0 1 85 150L50 150L15 150 A15 15 0 0 1 0 135L0 100L0 50 Z" fill="url(#d-g-orange)"/>
+        <path class="b-gloss" d="M0 15 A15 15 0 0 1 15 0L35 0 A15 15 0 0 1 50 15L50 50L50 100L85 100 A15 15 0 0 1 100 115L100 135 A15 15 0 0 1 85 150L50 150L15 150 A15 15 0 0 1 0 135L0 100L0 50 Z"/>
+        <path class="b-rim" d="M0 15 A15 15 0 0 1 15 0L35 0 A15 15 0 0 1 50 15L50 50L50 100L85 100 A15 15 0 0 1 100 115L100 135 A15 15 0 0 1 85 150L50 150L15 150 A15 15 0 0 1 0 135L0 100L0 50 Z"/>
+      </g>
+    </g>
+    <g class="hero-block" data-depth="0.8">
+      <g transform="translate(700 -32) rotate(12) scale(0.88)">
+        <path class="b-side" d="M0 15 A15 15 0 0 1 15 0L50 0L100 0L135 0 A15 15 0 0 1 150 15L150 35 A15 15 0 0 1 135 50L100 50L100 85 A15 15 0 0 1 85 100L65 100 A15 15 0 0 1 50 85L50 50L15 50 A15 15 0 0 1 0 35 Z" transform="translate(9 10.799999999999999)"/>
+        <path class="b-face" d="M0 15 A15 15 0 0 1 15 0L50 0L100 0L135 0 A15 15 0 0 1 150 15L150 35 A15 15 0 0 1 135 50L100 50L100 85 A15 15 0 0 1 85 100L65 100 A15 15 0 0 1 50 85L50 50L15 50 A15 15 0 0 1 0 35 Z" fill="url(#d-g-cyan)"/>
+        <path class="b-gloss" d="M0 15 A15 15 0 0 1 15 0L50 0L100 0L135 0 A15 15 0 0 1 150 15L150 35 A15 15 0 0 1 135 50L100 50L100 85 A15 15 0 0 1 85 100L65 100 A15 15 0 0 1 50 85L50 50L15 50 A15 15 0 0 1 0 35 Z"/>
+        <path class="b-rim" d="M0 15 A15 15 0 0 1 15 0L50 0L100 0L135 0 A15 15 0 0 1 150 15L150 35 A15 15 0 0 1 135 50L100 50L100 85 A15 15 0 0 1 85 100L65 100 A15 15 0 0 1 50 85L50 50L15 50 A15 15 0 0 1 0 35 Z"/>
+      </g>
+    </g>
+    <g class="hero-block" data-depth="0.62">
+      <g transform="translate(936 100) rotate(-16) scale(0.86)">
+        <path class="b-side" d="M0 15 A15 15 0 0 1 15 0L50 0L85 0 A15 15 0 0 1 100 15L100 50L100 85 A15 15 0 0 1 85 100L50 100L15 100 A15 15 0 0 1 0 85L0 50 Z" transform="translate(9 10.799999999999999)"/>
+        <path class="b-face" d="M0 15 A15 15 0 0 1 15 0L50 0L85 0 A15 15 0 0 1 100 15L100 50L100 85 A15 15 0 0 1 85 100L50 100L15 100 A15 15 0 0 1 0 85L0 50 Z" fill="url(#d-g-gold)"/>
+        <path class="b-gloss" d="M0 15 A15 15 0 0 1 15 0L50 0L85 0 A15 15 0 0 1 100 15L100 50L100 85 A15 15 0 0 1 85 100L50 100L15 100 A15 15 0 0 1 0 85L0 50 Z"/>
+        <path class="b-rim" d="M0 15 A15 15 0 0 1 15 0L50 0L85 0 A15 15 0 0 1 100 15L100 50L100 85 A15 15 0 0 1 85 100L50 100L15 100 A15 15 0 0 1 0 85L0 50 Z"/>
+      </g>
+    </g>
+    <g class="hero-block" data-depth="0.92">
+      <g transform="translate(-20 288) rotate(-18) scale(0.92)">
+        <path class="b-side" d="M0 15 A15 15 0 0 1 15 0L35 0 A15 15 0 0 1 50 15L50 50L50 100L85 100 A15 15 0 0 1 100 115L100 135 A15 15 0 0 1 85 150L50 150L15 150 A15 15 0 0 1 0 135L0 100L0 50 Z" transform="translate(10 12)"/>
+        <path class="b-face" d="M0 15 A15 15 0 0 1 15 0L35 0 A15 15 0 0 1 50 15L50 50L50 100L85 100 A15 15 0 0 1 100 115L100 135 A15 15 0 0 1 85 150L50 150L15 150 A15 15 0 0 1 0 135L0 100L0 50 Z" fill="url(#d-g-red)"/>
+        <path class="b-gloss" d="M0 15 A15 15 0 0 1 15 0L35 0 A15 15 0 0 1 50 15L50 50L50 100L85 100 A15 15 0 0 1 100 115L100 135 A15 15 0 0 1 85 150L50 150L15 150 A15 15 0 0 1 0 135L0 100L0 50 Z"/>
+        <path class="b-rim" d="M0 15 A15 15 0 0 1 15 0L35 0 A15 15 0 0 1 50 15L50 50L50 100L85 100 A15 15 0 0 1 100 115L100 135 A15 15 0 0 1 85 150L50 150L15 150 A15 15 0 0 1 0 135L0 100L0 50 Z"/>
+      </g>
+    </g>
+    <g class="hero-block" data-depth="0.7">
+      <g transform="translate(828 320) rotate(10) scale(0.85)">
+        <path class="b-side" d="M0 15 A15 15 0 0 1 15 0L50 0L100 0L135 0 A15 15 0 0 1 150 15L150 35 A15 15 0 0 1 135 50L100 50L100 85 A15 15 0 0 1 85 100L65 100 A15 15 0 0 1 50 85L50 50L15 50 A15 15 0 0 1 0 35 Z" transform="translate(9 10.799999999999999)"/>
+        <path class="b-face" d="M0 15 A15 15 0 0 1 15 0L50 0L100 0L135 0 A15 15 0 0 1 150 15L150 35 A15 15 0 0 1 135 50L100 50L100 85 A15 15 0 0 1 85 100L65 100 A15 15 0 0 1 50 85L50 50L15 50 A15 15 0 0 1 0 35 Z" fill="url(#d-g-purple)"/>
+        <path class="b-gloss" d="M0 15 A15 15 0 0 1 15 0L50 0L100 0L135 0 A15 15 0 0 1 150 15L150 35 A15 15 0 0 1 135 50L100 50L100 85 A15 15 0 0 1 85 100L65 100 A15 15 0 0 1 50 85L50 50L15 50 A15 15 0 0 1 0 35 Z"/>
+        <path class="b-rim" d="M0 15 A15 15 0 0 1 15 0L50 0L100 0L135 0 A15 15 0 0 1 150 15L150 35 A15 15 0 0 1 135 50L100 50L100 85 A15 15 0 0 1 85 100L65 100 A15 15 0 0 1 50 85L50 50L15 50 A15 15 0 0 1 0 35 Z"/>
+      </g>
+    </g>
+</svg>
+    <!-- /hero-art:desktop -->
+      <!-- hero-art:mobile -->
+<svg class="hero-svg hero-svg--mobile" viewBox="0 0 760 1000" width="760" height="1000" aria-hidden="true" focusable="false">
+
+  <defs>
+    
+    <linearGradient id="m-g-orange" x1="0" y1="0" x2="0.8" y2="1">
+      <stop offset="0" stop-color="#ffcf8a"/>
+      <stop offset="0.38" stop-color="#ff9a2e"/>
+      <stop offset="1" stop-color="#d95f0a"/>
+    </linearGradient>
+    <linearGradient id="m-g-cyan" x1="0" y1="0" x2="0.8" y2="1">
+      <stop offset="0" stop-color="#a5efff"/>
+      <stop offset="0.38" stop-color="#25c3f0"/>
+      <stop offset="1" stop-color="#0582b4"/>
+    </linearGradient>
+    <linearGradient id="m-g-red" x1="0" y1="0" x2="0.8" y2="1">
+      <stop offset="0" stop-color="#ffb0ba"/>
+      <stop offset="0.38" stop-color="#f4485c"/>
+      <stop offset="1" stop-color="#b81a36"/>
+    </linearGradient>
+    <linearGradient id="m-g-purple" x1="0" y1="0" x2="0.8" y2="1">
+      <stop offset="0" stop-color="#e2b8ff"/>
+      <stop offset="0.38" stop-color="#a855f7"/>
+      <stop offset="1" stop-color="#6a17b4"/>
+    </linearGradient>
+    <linearGradient id="m-g-gold" x1="0" y1="0" x2="0.8" y2="1">
+      <stop offset="0" stop-color="#ffe98f"/>
+      <stop offset="0.38" stop-color="#f5c518"/>
+      <stop offset="1" stop-color="#b07f00"/>
+    </linearGradient>
+    <linearGradient id="m-gloss-fill" x1="0" y1="0" x2="0.55" y2="1">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.78"/>
+      <stop offset="0.28" stop-color="#ffffff" stop-opacity="0.24"/>
+      <stop offset="0.52" stop-color="#ffffff" stop-opacity="0"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0.12"/>
+    </linearGradient>
+    <linearGradient id="m-rim-fill" x1="0" y1="0" x2="0.7" y2="1">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.45"/>
+      <stop offset="0.16" stop-color="#ffffff" stop-opacity="0"/>
+      <stop offset="0.84" stop-color="#000000" stop-opacity="0"/>
+      <stop offset="1" stop-color="#000000" stop-opacity="0.3"/>
+    </linearGradient>
+  </defs>
+
+  <path d="M0 0 H212 C184 40 150 84 114 122 C82 156 42 176 0 190 Z" fill="#24cc48"/>
+  <path d="M760 0 H548 C576 40 610 84 646 122 C678 156 718 176 760 190 Z" fill="#fcd824"/>
+  <path d="M0 1000 V758 C50 788 100 828 142 878 C176 918 196 958 206 1000 L0 1000 Z" fill="#fc3c48"/>
+  <path d="M760 1000 V758 C710 788 660 828 618 878 C584 918 564 958 554 1000 L760 1000 Z" fill="#189cfc"/>
+
+    <g class="hero-block" data-depth="1">
+      <g transform="translate(-34 -34) rotate(-22) scale(0.8)">
+        <path class="b-side" d="M0 15 A15 15 0 0 1 15 0L35 0 A15 15 0 0 1 50 15L50 50L50 100L85 100 A15 15 0 0 1 100 115L100 135 A15 15 0 0 1 85 150L50 150L15 150 A15 15 0 0 1 0 135L0 100L0 50 Z" transform="translate(8 9.6)"/>
+        <path class="b-face" d="M0 15 A15 15 0 0 1 15 0L35 0 A15 15 0 0 1 50 15L50 50L50 100L85 100 A15 15 0 0 1 100 115L100 135 A15 15 0 0 1 85 150L50 150L15 150 A15 15 0 0 1 0 135L0 100L0 50 Z" fill="url(#m-g-orange)"/>
+        <path class="b-gloss" d="M0 15 A15 15 0 0 1 15 0L35 0 A15 15 0 0 1 50 15L50 50L50 100L85 100 A15 15 0 0 1 100 115L100 135 A15 15 0 0 1 85 150L50 150L15 150 A15 15 0 0 1 0 135L0 100L0 50 Z"/>
+        <path class="b-rim" d="M0 15 A15 15 0 0 1 15 0L35 0 A15 15 0 0 1 50 15L50 50L50 100L85 100 A15 15 0 0 1 100 115L100 135 A15 15 0 0 1 85 150L50 150L15 150 A15 15 0 0 1 0 135L0 100L0 50 Z"/>
+      </g>
+    </g>
+    <g class="hero-block" data-depth="0.8">
+      <g transform="translate(600 -28) rotate(12) scale(0.72)">
+        <path class="b-side" d="M0 15 A15 15 0 0 1 15 0L50 0L100 0L135 0 A15 15 0 0 1 150 15L150 35 A15 15 0 0 1 135 50L100 50L100 85 A15 15 0 0 1 85 100L65 100 A15 15 0 0 1 50 85L50 50L15 50 A15 15 0 0 1 0 35 Z" transform="translate(7 8.4)"/>
+        <path class="b-face" d="M0 15 A15 15 0 0 1 15 0L50 0L100 0L135 0 A15 15 0 0 1 150 15L150 35 A15 15 0 0 1 135 50L100 50L100 85 A15 15 0 0 1 85 100L65 100 A15 15 0 0 1 50 85L50 50L15 50 A15 15 0 0 1 0 35 Z" fill="url(#m-g-cyan)"/>
+        <path class="b-gloss" d="M0 15 A15 15 0 0 1 15 0L50 0L100 0L135 0 A15 15 0 0 1 150 15L150 35 A15 15 0 0 1 135 50L100 50L100 85 A15 15 0 0 1 85 100L65 100 A15 15 0 0 1 50 85L50 50L15 50 A15 15 0 0 1 0 35 Z"/>
+        <path class="b-rim" d="M0 15 A15 15 0 0 1 15 0L50 0L100 0L135 0 A15 15 0 0 1 150 15L150 35 A15 15 0 0 1 135 50L100 50L100 85 A15 15 0 0 1 85 100L65 100 A15 15 0 0 1 50 85L50 50L15 50 A15 15 0 0 1 0 35 Z"/>
+      </g>
+    </g>
+    <g class="hero-block" data-depth="0.62">
+      <g transform="translate(672 150) rotate(-16) scale(0.66)">
+        <path class="b-side" d="M0 15 A15 15 0 0 1 15 0L50 0L85 0 A15 15 0 0 1 100 15L100 50L100 85 A15 15 0 0 1 85 100L50 100L15 100 A15 15 0 0 1 0 85L0 50 Z" transform="translate(7 8.4)"/>
+        <path class="b-face" d="M0 15 A15 15 0 0 1 15 0L50 0L85 0 A15 15 0 0 1 100 15L100 50L100 85 A15 15 0 0 1 85 100L50 100L15 100 A15 15 0 0 1 0 85L0 50 Z" fill="url(#m-g-gold)"/>
+        <path class="b-gloss" d="M0 15 A15 15 0 0 1 15 0L50 0L85 0 A15 15 0 0 1 100 15L100 50L100 85 A15 15 0 0 1 85 100L50 100L15 100 A15 15 0 0 1 0 85L0 50 Z"/>
+        <path class="b-rim" d="M0 15 A15 15 0 0 1 15 0L50 0L85 0 A15 15 0 0 1 100 15L100 50L100 85 A15 15 0 0 1 85 100L50 100L15 100 A15 15 0 0 1 0 85L0 50 Z"/>
+      </g>
+    </g>
+    <g class="hero-block" data-depth="0.92">
+      <g transform="translate(-28 786) rotate(-18) scale(0.74)">
+        <path class="b-side" d="M0 15 A15 15 0 0 1 15 0L35 0 A15 15 0 0 1 50 15L50 50L50 100L85 100 A15 15 0 0 1 100 115L100 135 A15 15 0 0 1 85 150L50 150L15 150 A15 15 0 0 1 0 135L0 100L0 50 Z" transform="translate(8 9.6)"/>
+        <path class="b-face" d="M0 15 A15 15 0 0 1 15 0L35 0 A15 15 0 0 1 50 15L50 50L50 100L85 100 A15 15 0 0 1 100 115L100 135 A15 15 0 0 1 85 150L50 150L15 150 A15 15 0 0 1 0 135L0 100L0 50 Z" fill="url(#m-g-red)"/>
+        <path class="b-gloss" d="M0 15 A15 15 0 0 1 15 0L35 0 A15 15 0 0 1 50 15L50 50L50 100L85 100 A15 15 0 0 1 100 115L100 135 A15 15 0 0 1 85 150L50 150L15 150 A15 15 0 0 1 0 135L0 100L0 50 Z"/>
+        <path class="b-rim" d="M0 15 A15 15 0 0 1 15 0L35 0 A15 15 0 0 1 50 15L50 50L50 100L85 100 A15 15 0 0 1 100 115L100 135 A15 15 0 0 1 85 150L50 150L15 150 A15 15 0 0 1 0 135L0 100L0 50 Z"/>
+      </g>
+    </g>
+    <g class="hero-block" data-depth="0.7">
+      <g transform="translate(604 826) rotate(10) scale(0.7)">
+        <path class="b-side" d="M0 15 A15 15 0 0 1 15 0L50 0L100 0L135 0 A15 15 0 0 1 150 15L150 35 A15 15 0 0 1 135 50L100 50L100 85 A15 15 0 0 1 85 100L65 100 A15 15 0 0 1 50 85L50 50L15 50 A15 15 0 0 1 0 35 Z" transform="translate(7 8.4)"/>
+        <path class="b-face" d="M0 15 A15 15 0 0 1 15 0L50 0L100 0L135 0 A15 15 0 0 1 150 15L150 35 A15 15 0 0 1 135 50L100 50L100 85 A15 15 0 0 1 85 100L65 100 A15 15 0 0 1 50 85L50 50L15 50 A15 15 0 0 1 0 35 Z" fill="url(#m-g-purple)"/>
+        <path class="b-gloss" d="M0 15 A15 15 0 0 1 15 0L50 0L100 0L135 0 A15 15 0 0 1 150 15L150 35 A15 15 0 0 1 135 50L100 50L100 85 A15 15 0 0 1 85 100L65 100 A15 15 0 0 1 50 85L50 50L15 50 A15 15 0 0 1 0 35 Z"/>
+        <path class="b-rim" d="M0 15 A15 15 0 0 1 15 0L50 0L100 0L135 0 A15 15 0 0 1 150 15L150 35 A15 15 0 0 1 135 50L100 50L100 85 A15 15 0 0 1 85 100L65 100 A15 15 0 0 1 50 85L50 50L15 50 A15 15 0 0 1 0 35 Z"/>
+      </g>
+    </g>
+</svg>
+
+    <!-- /hero-art:mobile -->
+
+      <h1 class="hero-heading">
+        <span class="sr-only">Blox Break — colorful block puzzle game for Android</span>
+        <img class="hero-wordmark"
+             src="assets/img/wordmark.webp"
+             srcset="assets/img/wordmark.webp 900w, assets/img/wordmark-2x.webp 1623w"
+             sizes="(max-width: 700px) 68vw, 54vw"
+             alt=""
+             width="1623" height="709"
+             fetchpriority="high" decoding="async" />
+      </h1>
+
+      <div class="cta-group hero-cta">
         <a href="#" class="btn btn-primary">Download on Google Play</a>
         <a href="#pieces" class="btn btn-secondary">See the pieces</a>
       </div>
@@ -119,7 +320,7 @@
             <p>A tidy 2×2 square.</p>
           </article>
           <article class="piece-card">
-            <div class="piece-art"><svg class="piece piece-orange" viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg" width="72" height="72" style="color:#ffb86b;"><rect x="0" y="0" width="24" height="24" rx="4"/><rect x="24" y="0" width="24" height="24" rx="4"/><rect x="48" y="0" width="24" height="24" rx="4"/><rect x="0" y="24" width="24" height="24" rx="4"/><rect x="24" y="24" width="24" height="24" rx="4"/><rect x="48" y="24" width="24" height="24" rx="4"/><rect x="0" y="48" width="24" height="24" rx="4"/><rect x="24" y="48" width="24" height="24" rx="4"/><rect x="48" y="48" width="24" height="24" rx="4"/></svg></div>
+            <div class="piece-art"><svg class="piece piece-orange" viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg" width="72" height="72"><rect x="0" y="0" width="24" height="24" rx="4"/><rect x="24" y="0" width="24" height="24" rx="4"/><rect x="48" y="0" width="24" height="24" rx="4"/><rect x="0" y="24" width="24" height="24" rx="4"/><rect x="24" y="24" width="24" height="24" rx="4"/><rect x="48" y="24" width="24" height="24" rx="4"/><rect x="0" y="48" width="24" height="24" rx="4"/><rect x="24" y="48" width="24" height="24" rx="4"/><rect x="48" y="48" width="24" height="24" rx="4"/></svg></div>
             <h3>6. Big square</h3>
             <p>A solid 3×3 block.</p>
           </article>
@@ -164,7 +365,7 @@
             <p>Six-cell rectangle.</p>
           </article>
           <article class="piece-card">
-            <div class="piece-art"><svg class="piece piece-orange" viewBox="0 0 48 96" xmlns="http://www.w3.org/2000/svg" width="48" height="96" style="color:#ffb86b;"><rect x="0" y="0" width="24" height="24" rx="4"/><rect x="24" y="0" width="24" height="24" rx="4"/><rect x="0" y="24" width="24" height="24" rx="4"/><rect x="24" y="24" width="24" height="24" rx="4"/><rect x="0" y="48" width="24" height="24" rx="4"/><rect x="24" y="48" width="24" height="24" rx="4"/><rect x="0" y="72" width="24" height="24" rx="4"/><rect x="24" y="72" width="24" height="24" rx="4"/></svg></div>
+            <div class="piece-art"><svg class="piece piece-orange" viewBox="0 0 48 96" xmlns="http://www.w3.org/2000/svg" width="48" height="96"><rect x="0" y="0" width="24" height="24" rx="4"/><rect x="24" y="0" width="24" height="24" rx="4"/><rect x="0" y="24" width="24" height="24" rx="4"/><rect x="24" y="24" width="24" height="24" rx="4"/><rect x="0" y="48" width="24" height="24" rx="4"/><rect x="24" y="48" width="24" height="24" rx="4"/><rect x="0" y="72" width="24" height="24" rx="4"/><rect x="24" y="72" width="24" height="24" rx="4"/></svg></div>
             <h3>15. 2×4 rectangle</h3>
             <p>Eight-cell rectangle.</p>
           </article>
@@ -238,7 +439,7 @@
             <p>Clear 2, 2 or 3 lines at once. Feat goal (target 1): one placement clears at least that many lines.</p>
           </div>
           <div class="feature-card">
-            <div class="feature-icon icon-orange" style="color:#ffb86b;"><span class="mini-piece"></span></div>
+            <div class="feature-icon icon-orange"><span class="mini-piece"></span></div>
             <h3>Score in Multiple Runs</h3>
             <p>Score 500 / 600 / 600 / 800 in 3, 3 or 4 runs. Progress +1 each run that hits the target, credited immediately.</p>
           </div>
@@ -280,7 +481,7 @@
             <p>No camera, microphone, contacts or location access.</p>
           </div>
           <div class="feature-card">
-            <div class="feature-icon icon-orange" style="color:#ffb86b;"><span class="mini-piece"></span></div>
+            <div class="feature-icon icon-orange"><span class="mini-piece"></span></div>
             <h3>No account needed</h3>
             <p>No registration or email — just open and play.</p>
           </div>

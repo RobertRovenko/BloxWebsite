@@ -1,31 +1,50 @@
 /* =========================
    Blox Website — Colorful Block Theme
-   Dark grid background with vibrant red / green / blue / yellow pieces
+   Palette derived from the hero banner artwork so the whole site
+   reads as one piece: the same navy ground, the same swoosh
+   colours, and the same plastic-block highlights.
    ========================= */
 :root {
-  --bg-0: #050812;
-  --bg-1: #0b1324;
-  --surface: rgba(255, 255, 255, 0.05);
-  --surface-2: rgba(255, 255, 255, 0.08);
-  --surface-strong: rgba(255, 255, 255, 0.10);
-  --border: rgba(255, 255, 255, 0.12);
-  --border-strong: rgba(255, 255, 255, 0.22);
+  /* Navy family, sampled from the hero artwork */
+  --bg-0: #03142f;
+  --bg-1: #08203f;
+  --surface: rgba(255, 255, 255, 0.055);
+  --surface-2: rgba(255, 255, 255, 0.09);
+  --surface-strong: rgba(255, 255, 255, 0.12);
+  --border: rgba(140, 190, 255, 0.14);
+  --border-strong: rgba(150, 200, 255, 0.26);
 
-  --text: #f8fafc;
-  --text-2: #cbd5e1;
-  --text-3: #94a3b8;
+  --text: #f4f9ff;
+  --text-2: #c3d4ea;
+  --text-3: #8fa6c4;
 
-  --red: #ff5a5f;
-  --green: #3ddc84;
-  --blue: #38bdf8;
-  --yellow: #ffd60a;
-  --purple: #b388ff;
-  --orange: #ffb86b;
+  /* Swoosh + block colours, straight from the hero artwork */
+  --red: #f4485c;
+  --green: #24cc48;
+  --blue: #189cfc;
+  --yellow: #fcd824;
+  --purple: #a855f7;
+  --orange: #ff9a2e;
 
-  --glow-red: rgba(255, 90, 95, 0.30);
-  --glow-green: rgba(61, 220, 132, 0.28);
-  --glow-blue: rgba(56, 189, 248, 0.30);
-  --glow-yellow: rgba(255, 214, 10, 0.30);
+  /* Light/dark stops of each plastic block, for the shared gradients */
+  --red-l: #ffb0ba;    --red-d: #b81a36;
+  --green-l: #b6f8c8;  --green-d: #0f8a42;
+  --blue-l: #a5efff;   --blue-d: #0582b4;
+  --yellow-l: #ffe98f; --yellow-d: #b07f00;
+  --purple-l: #e2b8ff; --purple-d: #6a17b4;
+  --orange-l: #ffcf8a; --orange-d: #d95f0a;
+
+  /* Deeper tones for filled surfaces that carry white text */
+  --blue-deep: #2273da;
+  --blue-deep-2: #0f3a86;
+  --blue-rim: #4aa3ff;
+
+  --glow-red: rgba(244, 72, 92, 0.32);
+  --glow-green: rgba(36, 204, 72, 0.30);
+  --glow-blue: rgba(24, 156, 252, 0.32);
+  --glow-yellow: rgba(252, 216, 36, 0.30);
+  --glow-purple: rgba(168, 85, 247, 0.30);
+  --glow-orange: rgba(255, 154, 46, 0.30);
 
   --radius: 20px;
   --radius-sm: 12px;
@@ -37,6 +56,9 @@
   --container: 1120px;
   --container-narrow: 820px;
   --header-h: 74px;
+
+  /* Navy sampled from the banner artwork — the hero's own ground */
+  --hero-navy: #01254a;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -47,9 +69,9 @@ body {
   line-height: 1.6;
   color: var(--text);
   background:
-    radial-gradient(1200px 600px at 15% -10%, rgba(56, 189, 248, 0.18), transparent 60%),
-    radial-gradient(900px 500px at 90% 10%, rgba(255, 90, 95, 0.16), transparent 60%),
-    radial-gradient(1000px 700px at 50% 110%, rgba(255, 214, 10, 0.12), transparent 60%),
+    radial-gradient(1200px 600px at 15% -10%, rgba(24, 156, 252, 0.20), transparent 60%),
+    radial-gradient(900px 500px at 90% 10%, rgba(244, 72, 92, 0.16), transparent 60%),
+    radial-gradient(1000px 700px at 50% 110%, rgba(252, 216, 36, 0.12), transparent 60%),
     linear-gradient(180deg, var(--bg-0), var(--bg-1));
   min-height: 100vh;
   overflow-x: hidden;
@@ -64,8 +86,8 @@ body::before {
   pointer-events: none;
   z-index: -2;
   background-image:
-    linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+    linear-gradient(rgba(140, 190, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(140, 190, 255, 0.05) 1px, transparent 1px);
   background-size: 36px 36px;
   mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
   -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
@@ -85,12 +107,23 @@ body::before {
 a { color: inherit; text-decoration: none; }
 img { display: block; max-width: 100%; height: auto; }
 
+/* Hidden SVG holding shared gradients/filter defs.
+   Must not affect layout: it is a replaced inline element, so it still
+   creates a line box unless it is taken out of flow. */
+.svg-defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
 /* ---------- Header ---------- */
 .site-header {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(5, 8, 18, 0.72);
+  background: rgba(3, 20, 47, 0.78);
   backdrop-filter: blur(18px) saturate(140%);
   -webkit-backdrop-filter: blur(18px) saturate(140%);
   border-bottom: 1px solid var(--border);
@@ -118,7 +151,7 @@ img { display: block; max-width: 100%; height: auto; }
   width: 30px;
   height: 30px;
   border-radius: 8px;
-  background: linear-gradient(135deg, var(--blue), var(--red));
+  background: linear-gradient(135deg, var(--blue), var(--purple));
   box-shadow: 0 6px 16px -6px var(--glow-blue);
   position: relative;
   overflow: hidden;
@@ -158,99 +191,6 @@ img { display: block; max-width: 100%; height: auto; }
   cursor: pointer;
 }
 /* ---------- Hero ---------- */
-.hero {
-  position: relative;
-  padding: 5.5rem 0 4rem;
-  text-align: center;
-  overflow: hidden;
-}
-
-.hero-pieces {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-}
-.piece-float {
-  position: absolute;
-  opacity: 0.62;
-  filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.5));
-  animation: floatY 7s ease-in-out infinite;
-}
-.piece-float:nth-child(2) { animation-duration: 8.5s; animation-delay: -1.2s; }
-.piece-float:nth-child(3) { animation-duration: 6.4s; animation-delay: -2.4s; }
-.piece-float:nth-child(4) { animation-duration: 9s; animation-delay: -3.1s; }
-.piece-float:nth-child(5) { animation-duration: 7.6s; animation-delay: -0.7s; }
-.piece-float:nth-child(6) { animation-duration: 8.2s; animation-delay: -4s; }
-
-@keyframes floatY {
-  0%, 100% { transform: translateY(0) rotate(var(--r, 0deg)); }
-  50% { transform: translateY(-16px) rotate(var(--r, 0deg)); }
-}
-
-.hero-content {
-  position: relative;
-  z-index: 1;
-}
-
-.hero-badge {
-  width: 156px;
-  height: 156px;
-  margin: 0 auto 1.75rem;
-  border-radius: 26%;
-  overflow: hidden;
-  box-shadow:
-    0 24px 60px -12px rgba(0, 0, 0, 0.6),
-    0 0 0 1px rgba(255, 255, 255, 0.15),
-    0 0 48px rgba(56, 189, 248, 0.25);
-  background: var(--surface);
-  animation: popIn 700ms cubic-bezier(0.2, 1.2, 0.3, 1) both;
-}
-.hero-badge img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-@keyframes popIn {
-  from { opacity: 0; transform: scale(0.82) translateY(12px); }
-  to   { opacity: 1; transform: none; }
-}
-
-.hero h1 {
-  font-size: clamp(3.2rem, 9vw, 5.6rem);
-  font-weight: 900;
-  letter-spacing: -2px;
-  line-height: 1;
-  margin: 0 0 0.75rem;
-  background: linear-gradient(180deg, #ffffff, #b9c6e6);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-.hero h1 .accent {
-  background: linear-gradient(100deg, var(--red), var(--yellow), var(--green), var(--blue));
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
-.tagline {
-  font-size: clamp(1.15rem, 2.2vw, 1.5rem);
-  color: var(--text-2);
-  margin: 0 auto 1rem;
-  max-width: 640px;
-  font-weight: 500;
-}
-
-.description {
-  font-size: 1.05rem;
-  color: var(--text-3);
-  max-width: 600px;
-  margin: 0 auto 2rem;
-  line-height: 1.7;
-}
-
 .cta-group {
   display: flex;
   gap: 1rem;
@@ -288,22 +228,33 @@ img { display: block; max-width: 100%; height: auto; }
 .btn:hover::after { transform: translateX(120%); }
 
 .btn-primary {
-  background: linear-gradient(135deg, var(--blue), #6366f1);
-  border-color: rgba(255, 255, 255, 0.18);
+  /* Brighter face + a bright rim + a strong blue glow, so the button reads
+     clearly against the navy hero it sits on. White text stays AA on both
+     ends of the gradient (4.63:1 lightest, 10.66:1 darkest). */
+  background: linear-gradient(135deg, var(--blue-deep), var(--blue-deep-2));
+  border-color: var(--blue-rim);
   color: #fff;
-  box-shadow: 0 12px 30px -8px var(--glow-blue);
+  box-shadow:
+    0 14px 34px -8px var(--glow-blue),
+    0 0 0 1px var(--blue-rim);
 }
 .btn-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 18px 40px -8px var(--glow-blue);
+  box-shadow:
+    0 20px 46px -8px var(--glow-blue),
+    0 0 0 2px var(--blue-rim);
 }
 .btn-secondary {
-  background: var(--surface-2);
-  border-color: var(--border-strong);
+  /* A translucent light plate with a bright rim: clearly secondary to the
+     primary, but unmistakable against the navy. */
+  background: rgba(140, 190, 255, 0.14);
+  border-color: rgba(160, 210, 255, 0.5);
   color: var(--text);
+  box-shadow: 0 10px 26px -12px rgba(0, 0, 0, 0.6);
 }
 .btn-secondary:hover {
-  background: var(--surface-strong);
+  background: rgba(150, 200, 255, 0.22);
+  border-color: rgba(180, 220, 255, 0.7);
   transform: translateY(-2px);
 }
 
@@ -380,15 +331,28 @@ img { display: block; max-width: 100%; height: auto; }
   height: auto;
   max-width: 96px;
   max-height: 96px;
-  filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.45));
+  filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.5));
 }
 
+/* Showcase pieces use the same gradient faces as the hero blocks */
 .piece rect {
   fill: currentColor;
-  stroke: rgba(0, 0, 0, 0.35);
+  stroke: rgba(0, 0, 0, 0.4);
   stroke-width: 2px;
   stroke-linejoin: round;
 }
+.piece-red rect { fill: url(#p-red); }
+.piece-green rect { fill: url(#p-green); }
+.piece-blue rect { fill: url(#p-blue); }
+.piece-yellow rect { fill: url(#p-yellow); }
+.piece-purple rect { fill: url(#p-purple); }
+.piece-orange rect { fill: url(#p-orange); }
+
+/* Specular bevel, matching the lit-plastic look of the hero artwork */
+.piece-art svg.piece {
+  filter: url(#p-plastic) drop-shadow(0 10px 18px rgba(0, 0, 0, 0.5));
+}
+
 .piece-red { color: var(--red); }
 .piece-green { color: var(--green); }
 .piece-blue { color: var(--blue); }
@@ -447,7 +411,9 @@ img { display: block; max-width: 100%; height: auto; }
   height: 22px;
   border-radius: 4px;
   background: currentColor;
-  box-shadow: inset 0 -2px 0 rgba(0,0,0,0.25);
+  box-shadow:
+    inset 0 2px 0 rgba(255, 255, 255, 0.4),
+    inset 0 -2px 0 rgba(0, 0, 0, 0.28);
 }
 .feature-card h3 {
   font-size: 1.05rem;
@@ -467,6 +433,7 @@ img { display: block; max-width: 100%; height: auto; }
 .icon-blue { color: var(--blue); }
 .icon-yellow { color: var(--yellow); }
 .icon-purple { color: var(--purple); }
+.icon-orange { color: var(--orange); }
 
 /* ---------- Steps ---------- */
 .steps {
@@ -495,6 +462,11 @@ img { display: block; max-width: 100%; height: auto; }
   color: var(--text-3);
   letter-spacing: 1px;
   margin-bottom: 0.6rem;
+  background: linear-gradient(135deg, var(--blue), #c084fc);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  width: fit-content;
 }
 .step-card h3 {
   font-size: 1.05rem;
@@ -561,7 +533,7 @@ img { display: block; max-width: 100%; height: auto; }
 /* ---------- Footer ---------- */
 .site-footer {
   border-top: 1px solid var(--border);
-  background: rgba(5, 8, 18, 0.6);
+  background: rgba(3, 20, 47, 0.66);
   backdrop-filter: blur(12px);
   padding: 2.5rem 0;
   margin-top: 2rem;
@@ -581,10 +553,6 @@ img { display: block; max-width: 100%; height: auto; }
 
 /* ---------- Responsive ---------- */
 @media (max-width: 760px) {
-  .hero { padding: 4rem 0 3rem; }
-  .hero-badge { width: 120px; height: 120px; }
-  .piece-float { transform: scale(0.7); }
-  .piece-float:nth-child(n) { transform: scale(0.7); }
   .section { padding: 3.5rem 0; }
   .policy-card { padding: 1.6rem 1.2rem; }
 
@@ -599,11 +567,9 @@ img { display: block; max-width: 100%; height: auto; }
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
   }
-  .site-header { background: rgba(5, 8, 18, 0.96); }
-  .piece-float { animation: none; filter: none; }
+  .site-header { background: rgba(3, 20, 47, 0.96); }
 }
 @media (max-width: 480px) {
-  .piece-float { display: none; }
   .nav { gap: 1rem; }
 }
 
@@ -668,3 +634,164 @@ img { display: block; max-width: 100%; height: auto; }
 }
 /* Prevent background scroll when menu open */
 body.nav-open { overflow: hidden; }
+
+/* =========================
+   Hero - glossy banner artwork
+   Hand-authored vector art (swooshes + 3D blocks) with the
+   wordmark layered on top, art-directed per breakpoint.
+   The CTA row sits on the artwork's own navy so it reads as
+   part of the hero rather than a separate block below it.
+   ========================= */
+
+.hero {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  background: var(--hero-navy);
+  overflow: hidden;
+}
+
+/* Visually hidden, but available to screen readers */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Artwork band ------------------------------------------------------ */
+.hero-art-wrap {
+  position: relative;
+  display: block;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* The vector backdrop: swooshes + glossy 3D blocks (inlined SVG) */
+.hero-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* Only one art direction is shown at a time */
+.hero-svg--mobile { display: none; }
+@media (max-width: 700px) {
+  .hero-svg--desktop { display: none; }
+  .hero-svg--mobile { display: block; }
+}
+
+/* Merged 3D blocks: each is one solid path, no cell seams */
+.b-side { fill: #04101f; opacity: 0.9; }
+.b-gloss { fill: url(#d-gloss-fill); }
+.b-rim { fill: url(#d-rim-fill); }
+
+.hero-svg--mobile .b-gloss { fill: url(#m-gloss-fill); }
+.hero-svg--mobile .b-rim { fill: url(#m-rim-fill); }
+
+/* Pointer parallax: script.js sets --px/--py (translate), --rot and --sc.
+   The transform is in SVG user units, so the values are scaled by the script
+   to keep the effect identical on phone and desktop. */
+.hero-block {
+  transform: translate(var(--px, 0px), var(--py, 0px)) rotate(var(--rot, 0deg)) scale(var(--sc, 1));
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: transform 260ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  will-change: transform;
+}
+
+/* Cursor spotlight over the hero art */
+.hero-art-wrap::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  background: radial-gradient(
+    340px circle at var(--mx, 50%) var(--my, 50%),
+    rgba(120, 200, 255, 0.16),
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity 300ms ease;
+}
+.hero-art-wrap.is-lit::after { opacity: 1; }
+
+/* The wordmark, centred over the backdrop */
+.hero-heading {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  padding: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.hero-wordmark {
+  position: absolute;
+  top: 42%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: block;
+  width: 54%;
+  height: auto;
+  filter: drop-shadow(0 18px 34px rgba(0, 0, 0, 0.55));
+}
+
+/* CTA row, sitting on the artwork's own navy shelf */
+.hero-cta {
+  position: absolute;
+  left: 50%;
+  bottom: 13.5%;
+  transform: translateX(-50%);
+  z-index: 2;
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  width: max-content;
+  max-width: 90%;
+}
+
+/* Mouse parallax (driven by script.js) - fine-pointer devices only.
+   The slight bleed keeps the offset from exposing an edge. */
+@media (hover: hover) and (pointer: fine) {
+  .hero-art {
+    width: calc(100% + 32px);
+    margin-left: -16px;
+    transition: transform 240ms cubic-bezier(0.2, 0.8, 0.2, 1);
+    will-change: transform;
+  }
+}
+
+/* ---------- Hero responsive ---------- */
+@media (max-width: 900px) {
+  .hero-wordmark { width: 58%; }
+}
+@media (max-width: 700px) {
+  /* Portrait layout: logo in the upper third, buttons in the lower third,
+     with clean navy between them. */
+  .hero-wordmark { top: 29%; width: 72%; }
+  .hero-cta { bottom: 15%; gap: 0.6rem; }
+  .hero-cta .btn { padding: 0.7rem 1.1rem; font-size: 0.9rem; }
+}
+@media (max-width: 480px) {
+  .hero-cta { flex-direction: column; width: auto; max-width: 86%; }
+  .hero-cta .btn {
+    width: 100%;
+    text-align: center;
+    padding: 0.8rem 0.9rem;
+    font-size: 0.88rem;
+    white-space: nowrap;
+  }
+}
