@@ -1,4 +1,4 @@
-// Blox website shared scripts — interactions
+// BloxBreak! shared scripts — interactions
 
 document.addEventListener("DOMContentLoaded", () => {
   // Mobile navbar toggle
